@@ -1,27 +1,58 @@
 require("dotenv").config();
 import "reflect-metadata";
 import { createConnection } from "typeorm";
-import { User } from "./entity/User";
-import { Application } from "./entity/Application";
-import { Activity } from "./entity/Activity";
+import * as express from "express";
+import api from "./api";
+import { OAuth2Client } from "google-auth-library";
+import { Request } from "./utils/interceptor";
+import UserRepo from "./repos/UserRepo";
+
+const CLIENT_ID =
+  "607978466940-4u4illcbmjqnmok8pnibtd6hqk248oke.apps.googleusercontent.com";
+const client = new OAuth2Client(CLIENT_ID);
+const app = express();
+app.use(express.json());
+app.use(authentication);
 
 createConnection()
   .then(async connection => {
-    await connection.dropDatabase();
     await connection.synchronize();
-    // console.log(connection);
-    console.log("Inserting a new user into the database...");
-    const user = new User();
-    user.email = "bartekgladys@gmail.com";
-    user.firstName = "Timber";
-    user.lastName = "Saw";
-    user.age = 25;
-    await connection.manager.save(user);
-    console.log("Saved a new user with id: " + user.id);
-    console.log("Loading users from the database...");
-    const users = await connection.manager.find(User);
-    console.log("Loaded users: ", users);
-
-    console.log("Here you can setup and run express/koa/any other framework.");
+    app.listen(3000);
+    api(app, connection);
+    console.log("Api is running!");
   })
   .catch(error => console.log(error));
+
+function authentication(
+  req: Request,
+  res: express.Response,
+  next: express.NextFunction
+) {
+  verify(req.headers.authorization)
+    .then(assignUser(req))
+    .then(tryToSaveUser)
+    .then(next)
+    .catch(() => res.json({ message: "not authenticated" }));
+}
+
+function assignUser(req: Request) {
+  return payload => {
+    req.user = payload;
+    return req;
+  };
+}
+
+async function tryToSaveUser(req: Request) {
+  const { email } = req.user;
+  const { id } = await UserRepo.saveAndGetOne(email);
+  req.user.id = id;
+  return;
+}
+
+async function verify(idToken) {
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience: CLIENT_ID
+  });
+  return ticket.getPayload();
+}

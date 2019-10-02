@@ -1,0 +1,15 @@
+{
+  "webhook": {
+    "name": "track-apps-backend-webhook",
+    "targetPipeline": "pipeline_name",
+    "targetAction": "source_action_name",
+    "filters": [
+      {
+        "jsonPath": "$.ref",
+        "matchEquals": "refs/heads/{Branch}"
+      }
+    ],
+    "authentication": "GITHUB_HMAC",
+    "authenticationConfiguration": { "SecretToken": "secret" }
+  }
+}

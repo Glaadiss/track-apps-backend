@@ -6,8 +6,8 @@ export class Application {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  email: string;
+  @Column({ unique: true })
+  name: string;
 
   @OneToMany(type => Activity, activity => activity.application)
   activites: Activity[];
