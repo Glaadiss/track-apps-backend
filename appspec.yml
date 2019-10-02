@@ -18,9 +18,12 @@ hooks:
       timeout: 180
   AfterInstall:
     - location: codedeploy/after_install.sh
-      timeout: 180
+    timeout: 180
   ApplicationStart:
     - location: codedeploy/app_start.sh
+      timeout: 180
+  ApplicationStop:
+    - location: codedeploy/app_stop.sh
       timeout: 180
   ValidateService:
     - location: codedeploy/validate_service.sh
