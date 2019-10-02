@@ -16,15 +16,21 @@ hooks:
   BeforeInstall:
     - location: codedeploy/before_install.sh
       timeout: 180
+      runas: root
   AfterInstall:
     - location: codedeploy/after_install.sh
     timeout: 180
+    runas: root
   ApplicationStart:
     - location: codedeploy/app_start.sh
       timeout: 180
+      runas: root
   ApplicationStop:
     - location: codedeploy/app_stop.sh
       timeout: 180
+      runas: root
   ValidateService:
     - location: codedeploy/validate_service.sh
       timeout: 180
+      runas: root
+
