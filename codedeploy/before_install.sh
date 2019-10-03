@@ -8,6 +8,9 @@ yum -y update
 curl --silent --location https://rpm.nodesource.com/setup_12.x | bash -
 yum -y install nodejs
 
+npm install pm2 -g
+npm install typescript -g
+
 
 export app_root=/usr/TrackAppsBackend
 if [ -d "$app_root" ];then
