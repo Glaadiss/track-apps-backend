@@ -7,8 +7,7 @@ import { OAuth2Client } from "google-auth-library";
 import { Request } from "./utils/interceptor";
 import UserRepo from "./repos/UserRepo";
 
-const CLIENT_ID =
-  "607978466940-4u4illcbmjqnmok8pnibtd6hqk248oke.apps.googleusercontent.com";
+const CLIENT_ID = process.env.CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);
 const app = express();
 app.use(express.json());
