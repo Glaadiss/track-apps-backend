@@ -1,5 +1,6 @@
 import { Response, ActivitiesRequest, RateRequest } from "../utils/interceptor";
 import ActivityService from "../services/ActivityService";
+import RatingService from "../services/RatingService";
 
 export default (app, connection) => {
   app.post("/activities", async (req: ActivitiesRequest, resp: Response) => {
@@ -8,7 +9,7 @@ export default (app, connection) => {
   });
 
   app.post("/rate", async (req: RateRequest, resp: Response) => {
-    // const users = await connection.manager.find(User);
-    // resp.json(users);
+    const response = await RatingService.addRating(req);
+    resp.json(response);
   });
 };
