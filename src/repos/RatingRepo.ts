@@ -7,7 +7,7 @@ async function save({ rating, user }) {
     .insert()
     .into(Rating)
     .values({
-      rating,
+      rating: Number(rating),
       user,
       date: new Date()
     })

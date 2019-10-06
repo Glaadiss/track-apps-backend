@@ -7,9 +7,10 @@ export class Rating {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ type: "decimal", precision: 2, scale: 1 })
   @IsNumber()
-  @Min(0)
-  @Max(5)
+  @Min(0.0)
+  @Max(5.0)
   rating: number;
 
   @Column()
