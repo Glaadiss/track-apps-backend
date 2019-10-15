@@ -28,6 +28,13 @@ async function getOne({ id, name }: { id?: string; name?: string }) {
     .catch(err => console.log("cant get application", err));
 }
 
+async function getAll() {
+  return getConnection()
+    .getRepository(Application)
+    .find()
+    .catch(err => console.log("cant get applications", err));
+}
+
 const saveAndGetOne = R.composeWith(R.then, [
   getOne,
   R.objOf("name"),
@@ -37,5 +44,6 @@ const saveAndGetOne = R.composeWith(R.then, [
 export default {
   save,
   getOne,
-  saveAndGetOne
+  saveAndGetOne,
+  getAll
 };

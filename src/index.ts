@@ -7,6 +7,7 @@ import { OAuth2Client } from "google-auth-library";
 import { Request } from "./utils/interceptor";
 import UserRepo from "./repos/UserRepo";
 import * as path from "path";
+import ApplicationRepo from "./repos/ApplicationRepo";
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const client = new OAuth2Client(CLIENT_ID);
@@ -33,6 +34,13 @@ function authentication(
     res.sendFile(
       path.join(__dirname, "loaderio-42aec3808fa962bded32404843aa30fc")
     );
+    return;
+  }
+
+  if (req.url.includes("/test")) {
+    ApplicationRepo.getAll()
+      .then(result => res.json(result))
+      .catch(err => res.json(err));
     return;
   }
 
