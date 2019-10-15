@@ -48,7 +48,10 @@ function authentication(
     .then(assignUser(req))
     .then(tryToSaveUser)
     .then(next)
-    .catch(() => res.json({ message: "not authenticated" }));
+    .catch(err => {
+      console.log('not authenticated', err)
+      res.json({ message: "not authenticated" })
+    });
 }
 
 function assignUser(req: Request) {
