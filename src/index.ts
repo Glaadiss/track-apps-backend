@@ -21,9 +21,9 @@ createConnection()
     await connection.synchronize();
     app.listen(3000);
     api(app, connection);
-    console.log("Api is running!");
+    console.log(new Date().toLocaleString(), "Api is running!");
   })
-  .catch(error => console.log(error));
+  .catch(error => console.log(new Date().toLocaleString(), error));
 
 function authentication(
   req: Request,
@@ -49,8 +49,8 @@ function authentication(
     .then(tryToSaveUser)
     .then(next)
     .catch(err => {
-      console.log('not authenticated', err)
-      res.json({ message: "not authenticated" })
+      console.log(new Date().toLocaleString(), "not authenticated", err);
+      res.json({ message: "not authenticated" });
     });
 }
 

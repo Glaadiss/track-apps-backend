@@ -12,7 +12,9 @@ async function save({ rating, user }) {
       date: new Date()
     })
     .execute()
-    .catch(err => console.log("cant save Rating", err));
+    .catch(err =>
+      console.log(new Date().toLocaleString(), "cant save Rating", err)
+    );
 }
 
 export default {

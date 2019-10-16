@@ -15,7 +15,9 @@ async function save(email) {
     .values(user)
     .onConflict(`("email") DO NOTHING`)
     .execute()
-    .catch(err => console.log("cant save user", err));
+    .catch(err =>
+      console.log(new Date().toLocaleString(), "cant save user", err)
+    );
 }
 
 async function getOne({ id, email }: { id?: string; email?: string }) {

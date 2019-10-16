@@ -13,7 +13,9 @@ async function save({ from, to, application, user }) {
       user
     })
     .execute()
-    .catch(err => console.log("cant save activity", err));
+    .catch(err =>
+      console.log(new Date().toLocaleString(), "cant save activity", err)
+    );
 }
 
 export default {

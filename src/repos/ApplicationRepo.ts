@@ -15,7 +15,9 @@ async function save(name) {
     .values(application)
     .onConflict(`("name") DO NOTHING`)
     .execute()
-    .catch(err => console.log("cant save application", err));
+    .catch(err =>
+      console.log(new Date().toLocaleString(), "cant save application", err)
+    );
 }
 
 async function getOne({ id, name }: { id?: string; name?: string }) {
@@ -25,14 +27,18 @@ async function getOne({ id, name }: { id?: string; name?: string }) {
     .where("application.id = :id", { id })
     .orWhere("application.name = :name", { name })
     .getOne()
-    .catch(err => console.log("cant get application", err));
+    .catch(err =>
+      console.log(new Date().toLocaleString(), "cant get application", err)
+    );
 }
 
 async function getAll() {
   return getConnection()
     .getRepository(Application)
     .find()
-    .catch(err => console.log("cant get applications", err));
+    .catch(err =>
+      console.log(new Date().toLocaleString(), "cant get applications", err)
+    );
 }
 
 const saveAndGetOne = R.composeWith(R.then, [
