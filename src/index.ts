@@ -30,13 +30,6 @@ function authentication(
   res: express.Response,
   next: express.NextFunction
 ) {
-  if (req.url.includes("loaderio-42aec3808fa962bded32404843aa30fc")) {
-    res.sendFile(
-      path.join(__dirname, "loaderio-42aec3808fa962bded32404843aa30fc")
-    );
-    return;
-  }
-
   if (req.url.includes("/test")) {
     ApplicationRepo.getAll()
       .then(result => res.json(result))

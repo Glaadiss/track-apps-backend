@@ -9,6 +9,12 @@ export default (app, connection) => {
       "/activites called by",
       req.user.email
     );
+
+    if (await ActivityService.activitiesExist(req)) {
+      resp.json({ message: "activies exist" });
+      return;
+    }
+
     const response = await Promise.all(ActivityService.addActivites(req));
     resp.json(response);
   });

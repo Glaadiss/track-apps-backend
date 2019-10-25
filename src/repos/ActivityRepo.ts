@@ -18,6 +18,16 @@ async function save({ from, to, application, user }) {
     );
 }
 
+async function getLast({ userId }: { userId?: number }): Promise<Activity> {
+  return getConnection()
+    .getRepository(Activity)
+    .createQueryBuilder("activity")
+    .where("activity.userId = :userId", { userId })
+    .orderBy("activity.to", "DESC")
+    .getOne();
+}
+
 export default {
+  getLast,
   save
 };
