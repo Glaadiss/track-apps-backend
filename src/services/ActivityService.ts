@@ -23,9 +23,21 @@ const addActivity = async ({ from, to, packageName, user }) => {
   return ActivityRepo.save({ from, to, application, user });
 };
 
+const logDateRange = activities => {
+  try {
+    const first = activities[0];
+    const last = activities[activities.length - 1];
+    console.log("first ", new Date(first.to), new Date(first.from));
+    console.log("last ", new Date(last.to), new Date(last.from));
+  } catch (error) {}
+
+  return activities;
+};
+
 const addActivites = req =>
   R.compose(
     R.map(addActivity),
+    logDateRange,
     R.map(joinUser(req)),
     R.reject(isWrongActivity)
   )(req.body);
