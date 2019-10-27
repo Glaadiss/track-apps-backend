@@ -22,7 +22,7 @@ async function getLast({ userId }: { userId?: number }): Promise<Activity> {
   return getConnection()
     .getRepository(Activity)
     .createQueryBuilder("activity")
-    .where("activity.userId = :userId", { userId })
+    .where("activity.user = :userId", { userId })
     .orderBy("activity.to", "DESC")
     .getOne();
 }
