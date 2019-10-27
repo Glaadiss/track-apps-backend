@@ -4,16 +4,9 @@ import * as R from "ramda";
 import { ActivitiesRequest } from "../utils/interceptor";
 import { Activity } from "../entity/Activity";
 
-// const dayInMs = 24 * 1000 * 60 * 60;
+const dayInMs = 24 * 1000 * 60 * 60;
 
-// const rejectWrongActivites = R.reject(
-//   R.compose(
-//     R.lt(dayInMs),
-//     Math.abs,
-//     R.apply(R.subtract),
-//     R.props(["to", "from"])
-//   )
-// );
+const isWrongActivity = ({ from, to }) => Math.abs(to - from) > dayInMs;
 
 const activitiesExist = async (req: ActivitiesRequest) => {
   const first = req.body[0];
@@ -33,8 +26,8 @@ const addActivity = async ({ from, to, packageName, user }) => {
 const addActivites = req =>
   R.compose(
     R.map(addActivity),
-    R.map(joinUser(req))
-    // rejectWrongActivites
+    R.map(joinUser(req)),
+    R.reject(isWrongActivity)
   )(req.body);
 
 export default {
