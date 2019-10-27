@@ -18,8 +18,9 @@ import { Activity } from "../entity/Activity";
 const activitiesExist = async (req: ActivitiesRequest) => {
   const first = req.body[0];
   if (!first) return false;
+
   const last: Activity = await ActivityRepo.getLast({ userId: req.user.id });
-  return Number(last.to) >= first.to;
+  return last ? Number(last.to) >= first.to : false;
 };
 
 const joinUser = req => R.mergeRight({ user: req.user.id });
