@@ -63,12 +63,28 @@ async function tryToSaveUser(req: Request) {
 }
 
 async function verify(idToken) {
-  const ticket = await client.verifyIdToken({
-    idToken,
-    audience: [
-      CLIENT_ID,
-      "607978466940-b45aqagc08brdm3rl2lnhegrut6sglpn.apps.googleusercontent.com"
-    ]
-  });
-  return ticket.getPayload();
+  // const ticket = await client.verifyIdToken({
+  //   idToken,
+  //   audience: [
+  //     CLIENT_ID,
+  //     "607978466940-b45aqagc08brdm3rl2lnhegrut6sglpn.apps.googleusercontent.com"
+  //   ]
+  // });
+  // return ticket.getPayload();
+  return parseJwt(idToken);
+}
+
+function parseJwt(token) {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function(c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
 }
