@@ -1,5 +1,5 @@
 import { getConnection } from "typeorm";
-import { User } from "../entity/User";
+import { User, Report } from "../entity/User";
 import * as R from "ramda";
 import { asyncTap } from "../utils";
 
@@ -29,6 +29,15 @@ async function getOne({ id, email }: { id?: string; email?: string }) {
     .getOne();
 }
 
+async function addReport({ id, report }: { id: string; report: Report }) {
+  return getConnection()
+    .createQueryBuilder()
+    .update(User)
+    .set({ report })
+    .where("id = :id", { id })
+    .execute();
+}
+
 const saveAndGetOne = R.composeWith(R.then, [
   getOne,
   R.objOf("email"),
@@ -38,5 +47,6 @@ const saveAndGetOne = R.composeWith(R.then, [
 export default {
   save,
   getOne,
-  saveAndGetOne
+  saveAndGetOne,
+  addReport
 };
