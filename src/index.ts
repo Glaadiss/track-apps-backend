@@ -36,14 +36,15 @@ function authentication(
       .catch(err => res.json(err));
     return;
   }
-
   verify(req.headers.authorization)
     .then(assignUser(req))
     .then(tryToSaveUser)
     .then(next)
     .catch(err => {
       console.log(new Date().toLocaleString(), "not authenticated", err);
-      res.json({ message: "not authenticated" });
+      res.json({
+        message: "not authenticated with header" + req.headers.authorization
+      });
     });
 }
 
