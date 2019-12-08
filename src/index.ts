@@ -65,7 +65,10 @@ async function tryToSaveUser(req: Request) {
 async function verify(idToken) {
   const ticket = await client.verifyIdToken({
     idToken,
-    audience: CLIENT_ID
+    audience: [
+      CLIENT_ID,
+      "607978466940-b45aqagc08brdm3rl2lnhegrut6sglpn.apps.googleusercontent.com"
+    ]
   });
   return ticket.getPayload();
 }
