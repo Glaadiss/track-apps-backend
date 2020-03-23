@@ -3,6 +3,7 @@ import "reflect-metadata";
 import { createConnection } from "typeorm";
 import * as express from "express";
 import api from "./api";
+import test from "./test";
 import { OAuth2Client } from "google-auth-library";
 import { Request } from "./utils/interceptor";
 import UserRepo from "./repos/UserRepo";
@@ -14,6 +15,7 @@ const client = new OAuth2Client(CLIENT_ID);
 const app = express();
 
 app.use(express.json());
+test(app);
 app.use(authentication);
 
 createConnection()
